@@ -177,6 +177,7 @@ public class Game implements Runnable {
 	 * @author krzysiek & Helena
 	 */
 	public void deliveryPhase() {
+		gameState.setActivePlayer(-1);
 		Collection<DeliveryCard> tempDCList = deckOfDeliveryCards
 				.removeThreeCards();
 		ProductType type;
@@ -202,6 +203,7 @@ public class Game implements Runnable {
 	 */
 
 	private void PCTPhase() throws InterruptedException {
+		gameState.setActivePlayer(-1);
 		gameState.setCurrentGamePhase(GamePhase.PCT);
 		if (gameState.getDayNumber() % 5 == 4)
 			SaturdayPhase();
@@ -333,6 +335,7 @@ public class Game implements Runnable {
 	 * @author Jan
 	 */
 	public void openingStoresPhase() {
+		gameState.setActivePlayer(-1);
 		for (Store store : gameState.getStores()) {
 			if (store.isClosed())
 				continue;

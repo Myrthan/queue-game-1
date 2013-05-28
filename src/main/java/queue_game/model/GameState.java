@@ -219,7 +219,7 @@ public class GameState {
 	 * Sets ID of player whose turn is now.
 	 */
 	public synchronized void setActivePlayer(int id) {
-		if(id < 0 || id >= numberOfPlayers)
+		if(id < -1 || id >= numberOfPlayers)
 			throw new IllegalArgumentException("No such player: " + id);
 		activePlayer = id;
 	}
