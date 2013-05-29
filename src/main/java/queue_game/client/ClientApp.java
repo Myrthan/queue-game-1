@@ -40,9 +40,7 @@ import queue_game.view.JPlayerList;
  * Main window of game.
  * 
  */
-public class ClientApp implements ActionCreator, DeckOfDeliveryCards,
-//DecksOfQueuingCardsBoxInterface,
-Updater{
+public class ClientApp implements ActionCreator, DeckOfDeliveryCards, DecksOfQueuingCardsBoxInterface, Updater{
 	private JGameArea gameArea;
 	private JClientPlayerList playerList;
 	private GameState gameState;
@@ -154,7 +152,7 @@ Updater{
 		game.addView(playerList);
 		gameArea.setGame(game);
 		updatePlayers();
-		//game.startGame(nPlayers, this, this);
+		game.startGame(nPlayers, this, this);
 	}
 
 	private void addPlayer(int id, String name){
