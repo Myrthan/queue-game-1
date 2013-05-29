@@ -22,9 +22,7 @@ import queue_game.model.GameState;
 import queue_game.model.Player;
 import queue_game.model.ProductType;
 import queue_game.model.QueuingCard;
-import queue_game.model.StandardDeckOfDeliveryCards;
 import queue_game.model.Store;
-import queue_game.server.Table;
 import queue_game.view.View;
 
 /**
@@ -236,10 +234,8 @@ public class Game implements Runnable {
 		int player = gameState.getGameOpeningMarker();
 		outer: while (true) {
 			gameState.setActivePlayer(player);
-			List<QueuingCard> cardsOnHand = gameState.getPlayersList()
-					.get(player).getCardsOnHand();
 			boolean success = false;
-			if(cardsOnHand.isEmpty()){
+			if(!decks.hasAnyCardOnTheHand(player)){
 				finished[player]=true;
 				nFinished++;
 				if(nFinished==nPlayers){
@@ -261,7 +257,7 @@ public class Game implements Runnable {
 					} else {
 						System.out.println(action);
 						card = (QueuingCard) action.getInfo()[1];
-						if (!cardsOnHand.contains(card)) {
+						if (!decks.hasCardOnTheHand(player, card)) {
 							messageForPlayer("Nie posiadasz  tej karty.");
 							continue;
 						}
@@ -310,10 +306,10 @@ public class Game implements Runnable {
 					}
 					if (action.getType() == GameActionType.CARD_PLAYED
 							&& success){
-						cardsOnHand.remove((QueuingCard) action.getInfo()[1]);
+						decks.removeFromHand(player, (QueuingCard) action.getInfo()[1]);
 						update(action);
 					}
-					if (cardsOnHand.isEmpty()) {
+					if(!decks.hasAnyCardOnTheHand(player)) {
 						finished[player] = true;
 						success = true;
 						nFinished++;
@@ -800,8 +796,7 @@ public class Game implements Runnable {
 	private void prepareToQueueJumping() {
 		int nPlayers = gameState.getNumberOfPlayers();
 		for (int i = 0; i < nPlayers; i++) {
-			gameState.getPlayersList().get(i)
-					.addCardsToHand(decks.getCardsToFillTheHandOfPlayer(i));
+			decks.fillTheHand(i);
 		}
 	}
 
@@ -861,13 +856,11 @@ public class Game implements Runnable {
 	 */
 	public synchronized void resetQueuingCards() {
 		int nPlayers = gameState.getNumberOfPlayers();
-		decks.resetAllDecks();
+		decks.resetAll();
 		for (int i = 0; i < nPlayers; i++) {
-			List<QueuingCard> cards = decks.getCardsToFillTheHandOfPlayer(i);
-			gameState.getPlayersList().get(i)
-					.addCardsToHand(cards);
-			for(QueuingCard card : cards)
-				update(new GameAction(GameActionType.DRAW_CARD, i, card));
+			decks.fillTheHand(i);
+			//for(QueuingCard card : decks.)
+			//	update(new GameAction(GameActionType.DRAW_CARD, i, card));
 		}
 	}
 
@@ -876,18 +869,17 @@ public class Game implements Runnable {
 	 */
 	public synchronized void resetQueuingCardsOnSaturday() {
 		int nPlayers = gameState.getNumberOfPlayers();
-		decks.resetAllDecks();
+		decks.resetAll();
 		for (int i = 0; i < nPlayers; i++) {
-			gameState.getPlayer(i).setCardsOnHand(new ArrayList<QueuingCard>());
-			gameState.getPlayersList().get(i)
-					.addCardsToHand(decks.getCardsToFillTheHandOfPlayer(i));
+			decks.fillTheHand(i);
 		}
 	}
 
-	/*
-	 * public synchronized StandardDeckOfQueuingCards getDeck(int playerNr) {
-	 * return decks.getDeck(); }
-	 */
+	
+	public synchronized DecksOfQueuingCardsBoxInterface getDecks() {
+		return decks;
+	}
+	 
 
 	/**
 	 * @param adapter

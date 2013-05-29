@@ -14,7 +14,7 @@ public class Player {
 	private int numberOfPawns;
 	private List<Integer> shoppingList = null;
 	private int[] boughtProducts = {0, 0, 0, 0, 0};
-	private List<QueuingCard> cardsOnHand=new LinkedList<QueuingCard>();
+	//private List<QueuingCard> cardsOnHand=new LinkedList<QueuingCard>();
 	private String name;
 	private int ID;
 	
@@ -56,7 +56,7 @@ public class Player {
 		return shoppingList;
 	}
 	
-	public void setCardsOnHand(List<QueuingCard> cards){
+	/*public void setCardsOnHand(List<QueuingCard> cards){
 		cardsOnHand=cards;
 	}
 	public List<QueuingCard> getCardsOnHand(){
@@ -64,7 +64,8 @@ public class Player {
 	}
 	public void addCardsToHand(List<QueuingCard> newCards){
 		cardsOnHand.addAll(newCards);
-	}	
+	}
+	*/	
 	public void addPawn(){
 		numberOfPawns++;
 	}

@@ -24,7 +24,20 @@ public class StandardDeckOfQueuingCards{
 		reset();
 	}
 	
+	public StandardDeckOfQueuingCards(boolean empty) {
+		if(!empty)
+			reset();
+	}
 	
+	
+	public List<QueuingCard> getDeck(){
+		return deck;
+	}
+	
+	public void addAll(List<QueuingCard> list)
+	{
+		deck.addAll(list);
+	}
 	/*public List<QueuingCard> getCardsToFillTheHandOfPlayer(int amount){
 		//for (int i = 0; i < 3 && cardsOnHand.size() < 3; i++) {
 		//	if(size()==0)
@@ -75,7 +88,13 @@ public class StandardDeckOfQueuingCards{
 		return deck.remove();
 	}
 	
+	public boolean remove(QueuingCard card){
+		return deck.remove(card);
+	}
+	
 	public boolean hasCard(QueuingCard card){
+		System.out.println("KK: " + deck.contains(card) + " " + card);
+		System.out.println(deck);
 		return deck.contains(card);
 	}
 

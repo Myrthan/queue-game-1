@@ -49,7 +49,6 @@ public class JCardsArea extends JPanel {
 		messageLabel = new JLabel(gameState.getPlayersList().get(gameState.getActivePlayer()).getName() +": " + gameState.getMessage());
 		add(messageLabel, BorderLayout.PAGE_START);
 		JPanel contentPanel = new JPanel();
-		List<QueuingCard> cards = gameState.getPlayersList().get((gameState.getActivePlayer())).getCardsOnHand();
 		Player player = gameState.getPlayersList().get((gameState.getActivePlayer()));
 		if(gameState.getCurrentGamePhase() == GamePhase.JUMPING){
 			JButton button = new JButton("PASS");
@@ -72,7 +71,8 @@ public class JCardsArea extends JPanel {
 			contentPanel.add(button);
 		}
 		if(gameState.getCurrentGamePhase()!= null && gameState.getCurrentGamePhase().ordinal() < 3)
-		for(QueuingCard i: gameState.getPlayersList().get((gameState.getActivePlayer())).getCardsOnHand()){
+		//for(QueuingCard i: gameState.getPlayersList().get((gameState.getActivePlayer())).getCardsOnHand()){
+		for(QueuingCard i: game.getDecks().getCardsOnHand(gameState.getActivePlayer())){
 			JQueuingCard temp = new JQueuingCard(player,i,game, creator);
 			contentPanel.add(temp);
 		}
